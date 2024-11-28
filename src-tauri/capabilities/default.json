@@ -1,0 +1,48 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window",
+  "windows": ["main"],
+  "remote": { "urls": ["http://localhost:*/*"] },
+  "permissions": [
+    "core:default",
+    "fs:default",
+    "fs:allow-write-text-file",
+    "fs:read-files",
+    {
+      "identifier": "fs:allow-read-text-file",
+      "allow": ["$RESOURCE/.server_info"]
+    },
+    {
+      "identifier": "fs:scope",
+      "allow": [
+        {
+          "path": "$HOME/*"
+        },
+        {
+          "path": "$RESOURCE/*"
+        },
+        {
+          "path": "$APPDATA/*"
+        },
+        {
+          "path": "$RESOURCE/*"
+        }
+      ]
+    },
+    "shell:default",
+    "shell:allow-open",
+    {
+      "identifier": "shell:allow-spawn",
+      "allow": [
+        {
+          "args": true,
+          "name": "binaries/xtrace",
+          "sidecar": true
+        }
+      ]
+    },
+    "dialog:default",
+    "dialog:allow-save"
+  ]
+}
