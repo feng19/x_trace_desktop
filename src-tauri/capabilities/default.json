@@ -7,11 +7,18 @@
   "permissions": [
     "core:default",
     "fs:default",
-    "fs:allow-write-text-file",
     "fs:read-files",
     {
       "identifier": "fs:allow-read-text-file",
-      "allow": ["$RESOURCE/.server_info"]
+      "allow": [
+        "$RESOURCE/.server_info",
+        "$APPDATA/settings.json",
+        "$APPDATA/curr_settings.json"
+      ]
+    },
+    {
+      "identifier": "fs:allow-write-text-file",
+      "allow": ["$APPDATA/settings.json", "$APPDATA/curr_settings.json"]
     },
     {
       "identifier": "fs:scope",
@@ -24,9 +31,6 @@
         },
         {
           "path": "$APPDATA/*"
-        },
-        {
-          "path": "$RESOURCE/*"
         }
       ]
     },
