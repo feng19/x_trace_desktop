@@ -57,6 +57,7 @@ jobs:
         if: matrix.platform == 'windows-latest'
         run: |
           curl -L -o src-tauri/binaries/xtrace-x86_64-windows.exe https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_windows.exe
+        shell: bash
 
       - name: install frontend dependencies
         run: npm install
