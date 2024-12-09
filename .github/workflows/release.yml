@@ -50,13 +50,15 @@ jobs:
       - name: download xtrace (macos only)
         if: matrix.platform == 'macos-latest'
         run: |
+          ls -al
+          pwd
           wget https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_macos  -O src-tauri/binaries/src-tauri/binaries/xtrace-x86_64-apple-darwin
           wget https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_macos_aarch64 -O src-tauri/binaries/src-tauri/binaries/xtrace-aarch64-apple-darwin
 
       - name: download xtrace (windows only)
         if: matrix.platform == 'windows-latest'
         run: |
-          wget.exe https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_windows.exe  -O src-tauri/binaries/xtrace-x86_64-windows.exe
+          "C:\msys64\usr\bin\wget.exe" https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_windows.exe  -O src-tauri/binaries/xtrace-x86_64-windows.exe
 
       - name: install frontend dependencies
         run: npm install
