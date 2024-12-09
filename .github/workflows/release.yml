@@ -42,23 +42,21 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.0-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
-          wget https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_linux -O src-tauri/binaries/xtrace-x86_64-unknown-linux-gnu
-          wget https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_linux_aarch64 -O src-tauri/binaries/xtrace-aarch64-unknown-linux-gnu
+          wget -O src-tauri/binaries/xtrace-x86_64-unknown-linux-gnu https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_linux
+          wget -O src-tauri/binaries/xtrace-aarch64-unknown-linux-gnu https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_linux_aarch64
         # webkitgtk 4.0 is for Tauri v1 - webkitgtk 4.1 is for Tauri v2.
         # You can remove the one that doesn't apply to your app to speed up the workflow a bit.
 
       - name: download xtrace (macos only)
         if: matrix.platform == 'macos-latest'
         run: |
-          ls -al
-          pwd
-          wget https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_macos  -O src-tauri/binaries/src-tauri/binaries/xtrace-x86_64-apple-darwin
-          wget https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_macos_aarch64 -O src-tauri/binaries/src-tauri/binaries/xtrace-aarch64-apple-darwin
+          wget -O src-tauri/binaries/xtrace-x86_64-apple-darwin https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_macos
+          wget -O src-tauri/binaries/xtrace-aarch64-apple-darwin https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_macos_aarch64
 
       - name: download xtrace (windows only)
         if: matrix.platform == 'windows-latest'
         run: |
-          "C:\msys64\usr\bin\wget.exe" https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_windows.exe  -O src-tauri/binaries/xtrace-x86_64-windows.exe
+          "C:\msys64\usr\bin\wget.exe" -O src-tauri/binaries/xtrace-x86_64-windows.exe https://github.com/feng19/x_trace/releases/download/${{ github.ref_name }}/xtrace_windows.exe
 
       - name: install frontend dependencies
         run: npm install
