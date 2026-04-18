@@ -1,6 +1,6 @@
 [package]
 name = "x_trace"
-version = "0.2.2"
+version = "0.3.1"
 description = "desktop for XTrace"
 authors = ["feng19"]
 edition = "2021"

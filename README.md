@@ -1,6 +1,12 @@
-# Xtrace desktop
+# Xtrace Desktop
 
 Xtrace desktop is a desktop application for [Xtrace](https://github.com/feng19/x_trace/).
+
+## Documentation
+
+📚 **[How to Build an Elixir Desktop Application with Tauri](docs/elixir-tauri-guide.md)** - Comprehensive guide on integrating Elixir as a Tauri sidecar (English)
+
+📚 **[如何使用 Tauri 构建 Elixir 桌面应用](docs/elixir-tauri-guide-zh.md)** - Elixir 与 Tauri Sidecar 集成完整指南（中文）
 
 ## Usage
 
