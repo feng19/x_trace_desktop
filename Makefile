@@ -1,5 +1,8 @@
-APP_VERSION=0.3.1
+APP_VERSION=0.4.3
 
+
+bump-version:
+	./scripts/bump-version.sh $(VERSION)
 
 download: download-linux download-macos download-windows
 
