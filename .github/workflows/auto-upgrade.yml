@@ -1,0 +1,56 @@
+name: "Auto Upgrade"
+
+# Daily check for a new x_trace release. If one exists, bump the version
+# everywhere via scripts/bump-version.sh, commit, tag v<version> and push.
+# The tag push then triggers release.yml to build and publish the app.
+#
+# NOTE: the tag must be pushed with a PAT (secret RELEASE_TOKEN, scope:
+# contents read/write on this repo) — tags pushed with the default
+# GITHUB_TOKEN do not trigger other workflows, so release.yml would
+# never run.
+
+on:
+  schedule:
+    - cron: "0 1 * * *" # daily at 01:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check-and-upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.RELEASE_TOKEN || github.token }}
+
+      - name: Check for new x_trace release
+        id: check
+        run: |
+          CURRENT=$(sed -n 's/^APP_VERSION=//p' Makefile)
+          LATEST=$(curl -fsSL https://api.github.com/repos/feng19/x_trace/releases/latest \
+            | jq -r '.tag_name | ltrimstr("v")')
+          echo "current: $CURRENT, latest: $LATEST"
+          [[ "$LATEST" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "error: bad latest version '$LATEST'" >&2; exit 1; }
+          if [[ "$CURRENT" != "$LATEST" && "$(printf '%s\n%s' "$CURRENT" "$LATEST" | sort -V | tail -1)" == "$LATEST" ]]; then
+            echo "New version found: $LATEST"
+            echo "version=$LATEST" >> "$GITHUB_OUTPUT"
+            echo "upgrade=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Already up to date."
+          fi
+
+      - name: Bump version
+        if: steps.check.outputs.upgrade == 'true'
+        run: ./scripts/bump-version.sh "${{ steps.check.outputs.version }}"
+
+      - name: Commit, tag and push
+        if: steps.check.outputs.upgrade == 'true'
+        run: |
+          VERSION="${{ steps.check.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -am "release v$VERSION"
+          git tag "v$VERSION"
+          git push origin master "v$VERSION"

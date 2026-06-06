@@ -45,3 +45,5 @@ make bump-version VERSION=0.4.3    # same, via make
 The script updates `Makefile` (`APP_VERSION`), `package.json`, `package-lock.json`, `src-tauri/tauri.conf.json`, `src-tauri/Cargo.toml`, and `src-tauri/Cargo.lock`, verifying the x_trace release tag exists first (`-f` skips the check).
 
 Releases are driven by pushing a `v*` tag: `.github/workflows/release.yml` builds on a macOS (arm64 + x86_64) / Ubuntu / Windows matrix, downloads the sidecar binaries from the x_trace release with the **same tag name**, and publishes a draft GitHub release tagged `app-v*`.
+
+`.github/workflows/auto-upgrade.yml` checks daily for a new x_trace release; if found, it runs the bump script, commits, and pushes a `v*` tag (kicking off `release.yml`). The tag push uses the `RELEASE_TOKEN` repo secret (a PAT with contents read/write) — the default `GITHUB_TOKEN` cannot trigger downstream workflows.
