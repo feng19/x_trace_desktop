@@ -11,7 +11,7 @@ name: "Auto Upgrade"
 
 on:
   schedule:
-    - cron: "0 1 * * *" # daily at 01:00 UTC
+    - cron: "0 2 * * 1" # Every Monday at 02:00 UTC.
   workflow_dispatch:
 
 permissions:
